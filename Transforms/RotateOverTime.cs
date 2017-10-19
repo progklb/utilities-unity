@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Utilities
+namespace Utilities.Transforms
 {
 	/// <summary>
-	/// Rotates the transform to which this script is attached to over time.
+	/// Rotates the transform to which this script is attached to over time about the axis specified.
 	/// </summary>
 	public class RotateOverTime : MonoBehaviour 
 	{
