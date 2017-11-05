@@ -32,8 +32,6 @@ namespace Utilities.Transforms
 		#region UNITY EVENTS
 		void Start() 
 		{
-			ScaleManager.onScaleChanged += OnScaleChange;
-
 			m_Transform = this.transform;
 			m_OriginalPosition = m_Transform.position;
 			m_OriginalScale = ScaleManager.instance.globalScale;
@@ -58,21 +56,6 @@ namespace Utilities.Transforms
 				Mathf.Sin(Time.time * m_Speed.y + m_PhaseOffset.y) * m_FloatMagnitude.y,
 				Mathf.Sin(Time.time * m_Speed.z + m_PhaseOffset.z) * m_FloatMagnitude.z 
 			);
-		}
-
-		void OnDestroy()
-		{
-			ScaleManager.onScaleChanged -= OnScaleChange;
-		}
-		#endregion
-
-
-		#region HELPERS
-		void OnScaleChange(float newScale)
-		{
-			var percentileChange = newScale / m_OriginalScale;
-			m_OriginalPosition = m_OriginalPosition * percentileChange;
-			m_OriginalScale = newScale;
 		}
 		#endregion
 	}

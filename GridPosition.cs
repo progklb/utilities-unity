@@ -9,16 +9,18 @@ namespace Utilities
 	/// </summary>
 	public class GridPosition 
 	{
+		#region TYPES
+		public enum Neighbor
+		{
+			N, NW, W, SW, S, SE, E, NE
+		}	
+		#endregion
+		
+			
 		#region VARIABLES
 		public int x, y;
 		public int gridSize = 1;
 		#endregion
-
-
-		public enum Neighbor
-		{
-			N, NW, W, SW, S, SE, E, NE
-		}
 
 
 		#region CONSTRUCTORS
@@ -72,11 +74,11 @@ namespace Utilities
 		{
 			switch (dir) 
 			{
-				case Neighbor.N:	return new GridPosition	(x, 			y + gridSize);	
+				case Neighbor.N:	return new GridPosition	(x, 		y + gridSize);	
 				case Neighbor.NW:	return new GridPosition	(x - gridSize, 	y + gridSize);
 				case Neighbor.W:	return new GridPosition	(x - gridSize, 	y);
 				case Neighbor.SW:	return new GridPosition	(x - gridSize, 	y - gridSize);
-				case Neighbor.S:	return new GridPosition	(x, 			y - gridSize);
+				case Neighbor.S:	return new GridPosition	(x, 		y - gridSize);
 				case Neighbor.SE:	return new GridPosition	(x + gridSize, 	y - gridSize);
 				case Neighbor.E:	return new GridPosition	(x + gridSize, 	y);
 				case Neighbor.NE:	return new GridPosition	(x + gridSize, 	y + gridSize);
