@@ -9,8 +9,6 @@ namespace Utilities.Cameras
 	{
 		public override void OnInspectorGUI()
 		{
-			bool lockPos = false;
-			
 			// Get the UnityController that this panel will edit.
 			CameraMimic camMim = (CameraMimic)target;
 			if (camMim == null)
@@ -46,7 +44,6 @@ namespace Utilities.Cameras
 			camMim.lockZoom = EditorGUILayout.Toggle("Lock zoom?", camMim.lockZoom);
 
 			EditorGUILayout.EndVertical();
-
 		}
 	}
 }

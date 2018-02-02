@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Utilities.Time
+namespace Utilities.Timers
 {
 	/// <summary>
 	/// A simple timer script that contains the internal logic to update its time and execute assigned callbacks when the timer reachs its call.

@@ -23,9 +23,6 @@ namespace Utilities.Transforms
 		private Transform m_Transform;
 		private Vector3 m_OriginalPosition;
 		private Vector3 m_PhaseOffset;
-		private Vector3 m_SpeedOffset;
-
-		private float m_OriginalScale;
 		#endregion
 
 
@@ -34,7 +31,6 @@ namespace Utilities.Transforms
 		{
 			m_Transform = this.transform;
 			m_OriginalPosition = m_Transform.position;
-			m_OriginalScale = ScaleManager.instance.globalScale;
 
 			m_PhaseOffset = new Vector3 (
 				(Random.value - 0.5f) * m_RandomPhaseOffset.x,
@@ -43,9 +39,9 @@ namespace Utilities.Transforms
 			);
 
 			m_Speed = new Vector3(
-				m_Speed.x + ((Random.value - 0.5f) * m_SpeedOffset.x),
-				m_Speed.y + ((Random.value - 0.5f) * m_SpeedOffset.y),
-				m_Speed.z + ((Random.value - 0.5f) * m_SpeedOffset.z)
+				m_Speed.x + ((Random.value - 0.5f) * m_RandomSpeedOffset.x),
+				m_Speed.y + ((Random.value - 0.5f) * m_RandomSpeedOffset.y),
+				m_Speed.z + ((Random.value - 0.5f) * m_RandomSpeedOffset.z)
 			);
 		}
 

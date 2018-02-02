@@ -45,7 +45,7 @@ namespace Utilities.Cameras
 			m_Camera = (Camera) GetComponent(typeof(Camera));
 
 			// Set initial positions
-			m_CameraIntialPos = new Vector3 
+			m_CameraIntialPos = new Vector3(
 				m_Camera.transform.position.x, 
 				m_Camera.transform.position.y, 
 			    m_Camera.transform.position.z
