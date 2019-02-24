@@ -40,7 +40,7 @@ namespace Utilities.StateMachine
 		private UObject m_InitialState;
 
 		[SerializeField]
-		private bool m_AutoStart;
+		private bool m_AutoStart = true;
 		[SerializeField]
 		private bool m_ToggleActive = true;
 		#endregion
@@ -140,7 +140,6 @@ namespace Utilities.StateMachine
 				if (currentState != null && currentState.id != id)
 				{
 					currentState.OnEnd(nextState);
-					currentState.OnReset();
 
 					SetActive(currentState, false);
 				}
@@ -150,6 +149,7 @@ namespace Utilities.StateMachine
 
 				SetActive(currentState, true);
 
+				currentState.OnReset();
 				currentState.OnBegin(prevState);
 			}
 			else
