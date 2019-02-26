@@ -6,6 +6,7 @@ namespace Utilities.StateMachine.Conditions
 	/// <summary>
 	/// A condition that listens for a button click, or can be triggered by a button click.
 	/// </summary>
+	[AddComponentMenu("Utilities/State Machine/Conditions/Button Clicked Condition")]
 	public class ButtonClickedCondition : TriggeredCondition
 	{
 		#region PROPERTIES

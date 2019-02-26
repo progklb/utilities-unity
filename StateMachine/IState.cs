@@ -8,7 +8,7 @@ namespace Utilities.StateMachine
 	public interface IState
 	{
 		#region PROPERTIES
-		Guid id { get; }
+		int id { get; }
 		StateMachine stateMachine { get; }
 
 		bool isInitialised { get; }
@@ -16,7 +16,7 @@ namespace Utilities.StateMachine
 
 
 		#region PUBLIC API
-		void Initialise(StateMachine stateMachine, Guid id);
+		void Initialise(StateMachine stateMachine);
 
 		void OnBegin(IState previousState);
 		void OnUpdate();

@@ -6,7 +6,7 @@ namespace Utilities.StateMachine.StateEvents
 	/// <summary>
 	/// Provides a generic means of triggering logic through the inspector.
 	/// </summary>
-	[AddComponentMenu("Utilities/State Machine/State Events/OnEvent Trigger Unity Event")]
+	[AddComponentMenu("Utilities/State Machine/State Events/Trigger Unity Event")]
 	public class OnEventTriggerUnityEvent : OnEventBehaviour
 	{
 		#region PROPERTIES

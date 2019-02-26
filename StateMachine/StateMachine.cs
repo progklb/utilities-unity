@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using System;
 using System.Collections.Generic;
 
 using UObject = UnityEngine.Object;
@@ -14,10 +13,13 @@ namespace Utilities.StateMachine
 	public class StateMachine : MonoBehaviour
 	{
 		#region PROPERTIES
+		/// The unique ID of this state machine.
+		public int id { get => GetInstanceID(); }
+
 		/// The currently active state.
 		public IState currentState { get; private set; }
 		/// A cache of all states known by this state machine.
-		public Dictionary<Guid, IState> states { get; private set; }
+		public Dictionary<int, IState> states { get; private set; }
 
 		/// The startup state for this state machine.
 		public IState initialState { get => m_InitialState as IState; set => m_InitialState = value as UObject; }
@@ -62,7 +64,7 @@ namespace Utilities.StateMachine
 				}
 				else
 				{
-					Debug.LogError("Cannot start state machine as no initial state has been set.");
+					Debug.LogError($"Cannot start state machine with id {id} as no initial state has been set.");
 				}
 			}
 		}
@@ -97,7 +99,7 @@ namespace Utilities.StateMachine
 			}
 			else
 			{
-				Debug.LogWarning("State machine is already running.");
+				Debug.LogWarning($"State machine with {id} is already running.");
 			}
 		}
 
@@ -127,17 +129,20 @@ namespace Utilities.StateMachine
 			}
 			else
 			{
-				Debug.LogError($"Provided state is null and cannot be set as the active state.");
+				Debug.LogError(
+					"Provided state is null and cannot be set as the active state.\n" +
+					$"State machine: {id}\n" +
+					$"Faulting state: {currentState.id}\n");
 			}
 		}
 
-		public void SetState(Guid id)
+		public void SetState(int stateId)
 		{
-			if (states.ContainsKey(id))
+			if (states.ContainsKey(stateId))
 			{
-				var nextState = states[id];
+				var nextState = states[stateId];
 
-				if (currentState != null && currentState.id != id)
+				if (currentState != null && currentState.id != stateId)
 				{
 					currentState.OnEnd(nextState);
 
@@ -154,7 +159,7 @@ namespace Utilities.StateMachine
 			}
 			else
 			{
-				Debug.LogError($"Provided state ({id}) is not part of this state machine's states.");
+				Debug.LogError($"Provided state ({stateId}) is not part of the states of this state machine ({id}).");
 			}
 		}
 
@@ -164,14 +169,14 @@ namespace Utilities.StateMachine
 			{
 				if (!state.isInitialised)
 				{
-					state.Initialise(this, Guid.NewGuid());
+					state.Initialise(this);
 				}
 
 				states.Add(state.id, state);
 			}
 			else
 			{
-				Debug.LogError($"Cannot remove provided state with id {state.id} as it is not part of this state machine's states.");
+				Debug.LogError($"The provided state with id {state.id} was not added to the state machine ({id}) as this state is already present in its states.");
 			}
 		}
 
@@ -183,7 +188,7 @@ namespace Utilities.StateMachine
 			}
 			else
 			{
-				Debug.LogError($"Cannot remove provided state with id {state.id} as it is not part of this state machine's states.");
+				Debug.LogError($"Cannot remove provided state with id {state.id} as it is not part of the states of this state machine ({id}).");
 			}
 		}
 		#endregion
@@ -195,7 +200,7 @@ namespace Utilities.StateMachine
 		/// </summary>
 		void Initialise()
 		{
-			states = new Dictionary<Guid, IState>();
+			states = new Dictionary<int, IState>();
 
 			foreach (var state in GetComponentsInChildren<IState>())
 			{

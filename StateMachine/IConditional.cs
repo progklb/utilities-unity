@@ -1,7 +1,7 @@
 ﻿namespace Utilities.StateMachine
 {
 	/// <summary>
-	/// Interface for defining conditionals.
+	/// Interface for defining conditionals that determine whether or not a state should transition.
 	/// </summary>
 	public interface IConditional
 	{

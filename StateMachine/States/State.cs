@@ -11,7 +11,7 @@ namespace Utilities.StateMachine.States
 	public abstract class State : MonoBehaviour, IState
 	{
 		#region PROPERTIES
-		public Guid id { get; protected set; }
+		public int id { get => GetInstanceID(); }
 		public StateMachine stateMachine { get; protected set; }
 
 		public bool isInitialised { get; protected set; }
@@ -19,10 +19,9 @@ namespace Utilities.StateMachine.States
 
 
 		#region INTERFACE IMPLEMENTATION - IState
-		public virtual void Initialise(StateMachine stateMachine, Guid id)
+		public virtual void Initialise(StateMachine stateMachine)
 		{
 			this.stateMachine = stateMachine;
-			this.id = id;
 
 			isInitialised = true;
 		}

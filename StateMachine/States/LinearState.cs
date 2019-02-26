@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using System;
 
@@ -17,7 +17,7 @@ namespace Utilities.StateMachine.States
 	{
 		#region PROPERTIES
 		/// The state to adavnce to when this state is complete.
-		public State nextState { get => m_NextState; }
+		public State nextState { get => m_NextState; set => m_NextState = value; }
 		/// Whether this state should shut down the state machine when complete.
 		public bool isTerminal { get => m_IsTerminal; set => m_IsTerminal = value; }
 
@@ -37,7 +37,7 @@ namespace Utilities.StateMachine.States
 
 
 		#region PUBLIC API
-		public override void Initialise(StateMachine stateMachine, Guid id)
+		public override void Initialise(StateMachine stateMachine)
 		{
 			// Cache and initialise all required components.
 
@@ -56,7 +56,7 @@ namespace Utilities.StateMachine.States
 				stateLogic.Initialise();
 			}
 
-			base.Initialise(stateMachine, id);
+			base.Initialise(stateMachine);
 		}
 
 		public override void OnBegin(IState previousState)

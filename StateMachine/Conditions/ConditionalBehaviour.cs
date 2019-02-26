@@ -3,9 +3,10 @@
 namespace Utilities.StateMachine.Conditions
 {
 	/// <summary>
-	/// A basic conditional implementation that can accept multiple conditions.
+	/// A basic conditional implementation that will monitor multiple <see cref="ICondition"/>s for satisfaction.
 	/// </summary>
 	[DisallowMultipleComponent]
+	[AddComponentMenu("Utilities/State Machine/Conditions/Conditional")]
 	public class ConditionalBehaviour : MonoBehaviour, IConditional
 	{
 		#region TYPES

@@ -5,10 +5,13 @@ namespace Utilities.StateMachine.Conditions
 	/// <summary>
 	/// A timed condition that becomes satisfied after a timeout.
 	/// </summary>
+	[AddComponentMenu("Utilities/State Machine/Conditions/Timed Condition")]
 	public class TimedCondition : ConditionBehaviour
 	{
 		#region PROPERTIES
-		private float timeout { get; set; }
+		public float timeout { get => m_Timeout; private set => m_Timeout = value; }
+
+		private float timeoutCounter { get; set; }
 		#endregion
 
 
@@ -21,9 +24,9 @@ namespace Utilities.StateMachine.Conditions
 		#region PUBLIC API
 		public override void OnUpdate()
 		{
-			timeout -= Time.deltaTime;
+			timeoutCounter -= Time.deltaTime;
 
-			if (timeout <= 0f)
+			if (timeoutCounter <= 0f)
 			{
 				isSatisfied = true;
 			}
@@ -33,7 +36,7 @@ namespace Utilities.StateMachine.Conditions
 		{
 			base.ResetCondition();
 
-			timeout = m_Timeout;
+			timeoutCounter = m_Timeout;
 		}
 		#endregion
 	}
