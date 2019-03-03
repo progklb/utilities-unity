@@ -5,7 +5,7 @@ namespace Utilities.StateMachine.StateEvents
 	/// <summary>
 	/// Base class for defining state events.
 	/// </summary>
-	public abstract class OnEventBehaviour : MonoBehaviour, IStateEvent
+	public abstract class OnStateBehaviour : MonoBehaviour, IStateEvent
 	{
 		#region PUBLIC API
 		public virtual void Initialise() { }
