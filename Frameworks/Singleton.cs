@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Utilities
+namespace Utilities.Frameworks
 {
 	/// <summary>
 	/// A base class for creating singleton objects.
