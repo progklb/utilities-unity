@@ -37,7 +37,7 @@ namespace Utilities
 			=> Assert(context, condition, message);
 
 		public static void Assert(object context, bool condition, string message)
-            => Debug.Assert(condition, $"[{context}] {message}");
+            => Debug.Assert(condition, $"[{context.GetType().Name}] {message}");
 		#endregion
 	}
 }
