@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Utilities 
+namespace Utilities.Math
 {
 	/// <summary>
 	/// Defines an upper and lower bounding value, and provides convenience operations with respect to these defined values.

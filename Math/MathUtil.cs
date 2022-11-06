@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Utilities
+namespace Utilities.Math
 {
 	/// <summary>
 	/// Provides useful math utility functions.
