@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Utilities
+namespace Utilities.Transforms
 {
 	/// <summary>
 	/// Reports Unity collision and trigger callbacks as standard events that can be subscribed to.

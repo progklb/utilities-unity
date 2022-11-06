@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Utilities
+namespace Utilities.Transforms
 {
 	/// <summary>
 	/// Holds maximum movement contraints along the X and Y axis, and provided convenience functions to ensure
