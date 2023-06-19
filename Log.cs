@@ -64,6 +64,9 @@ namespace Utilities
 			=> Debug.LogAssertion($"[{context}] {message}");
 
 
+		public static void Assert(Enum topic, bool condition, string message, [CallerMemberName] string memberName = "")
+			=> Assert($"{topic}::{memberName}", condition, message);
+
 		public static void Assert(object context, bool condition, string message)
 			=> Assert(context.GetType().Name, condition, message);
 
@@ -75,6 +78,8 @@ namespace Utilities
 		#region HELPER FUNCTIONS
 		private static bool FilterTopic(Enum topic)
 		{
+			// For performance/security, we ignore all non-critical logs for release builds.
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
 			if (topics == null)
 			{
 				var path = "Log/LogTopics";
@@ -87,6 +92,9 @@ namespace Utilities
 			}
 
 			return topics.HasEnabled(topic);
+#else
+			return false;
+#endif
 		}
 		#endregion
 	}
