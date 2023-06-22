@@ -1,9 +1,8 @@
-using UnityEngine;
-
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+using UnityEngine;
 
 namespace Utilities.Audio
 {
@@ -155,7 +154,7 @@ namespace Utilities.Audio
 						Debug.LogError("Unsupported playback mode.");
 						yield break;
 				}
-				
+
 				m_AudioSource.PlayOneShot(clip);
 				isPlaying = true;
 

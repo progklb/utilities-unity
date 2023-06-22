@@ -2,7 +2,7 @@
 
 namespace Utilities.Cameras
 {
-	public class CameraController2D : MonoBehaviour 
+	public class CameraController2D : MonoBehaviour
 	{
 
 		#region VARIABLES
@@ -20,7 +20,7 @@ namespace Utilities.Cameras
 
 
 		#region UNITY EVENTS
-		void Awake () 
+		void Awake()
 		{
 			// Try to find a camera on this game object if a camera has not been assigned
 			if (m_Camera == null)
@@ -34,7 +34,7 @@ namespace Utilities.Cameras
 			}
 		}
 
-		void Update () 
+		void Update()
 		{
 			m_Target = Vector3.Lerp(m_Target, m_FollowBody.transform.position, Time.deltaTime * m_Smoothing);
 

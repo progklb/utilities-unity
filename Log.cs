@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
+
+using UnityEngine;
 
 namespace Utilities
 {

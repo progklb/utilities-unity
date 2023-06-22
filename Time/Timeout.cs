@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace Utilities.Timers
+﻿namespace Utilities.Timers
 {
 	/// <summary>
 	/// An object that contains a specified timeout value and an accumulation value.

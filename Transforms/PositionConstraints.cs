@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Utilities.Transforms
 {
@@ -70,19 +69,19 @@ namespace Utilities.Transforms
 		{
 			if (position.x < minx)
 			{
-				position.x = Mathf.Clamp (position.x,position.x, maxx);
+				position.x = Mathf.Clamp(position.x, position.x, maxx);
 			}
 			if (position.x > maxx)
 			{
-				position.x = Mathf.Clamp (position.x, minx, position.x);
+				position.x = Mathf.Clamp(position.x, minx, position.x);
 			}
 			if (position.y < miny)
 			{
-				position.y = Mathf.Clamp (position.y, position.y, maxy);
+				position.y = Mathf.Clamp(position.y, position.y, maxy);
 			}
 			if (position.y > maxy)
 			{
-				position.y = Mathf.Clamp (position.y, miny, position.y);
+				position.y = Mathf.Clamp(position.y, miny, position.y);
 			}
 
 			return position;
@@ -103,11 +102,11 @@ namespace Utilities.Transforms
 			// to keep moving away from the min/max. We prevent this by limiting the distance the cam can be from the border. 
 			if (position.x < minLimitX || position.x > maxLimitX)
 			{
-				position.x = Mathf.Clamp (position.x, minLimitX, maxLimitX);
+				position.x = Mathf.Clamp(position.x, minLimitX, maxLimitX);
 			}
 			if (position.y < minLimitY || position.y > maxLimitY)
 			{
-				position.y = Mathf.Clamp (position.y, minLimitY, maxLimitY);
+				position.y = Mathf.Clamp(position.y, minLimitY, maxLimitY);
 			}
 
 			//Smoothly constrain movement. Lerps back to boundary.

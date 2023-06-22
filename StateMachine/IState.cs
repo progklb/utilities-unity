@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Utilities.StateMachine
+﻿namespace Utilities.StateMachine
 {
 	/// <summary>
 	/// Interface for defining states for the <see cref="StateMachine"/>.

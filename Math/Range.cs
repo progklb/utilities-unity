@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Utilities.Math
 {
 	/// <summary>
 	/// Defines an upper and lower bounding value, and provides convenience operations with respect to these defined values.
 	/// </summary>
-	public class Range 
+	public class Range
 	{
 		public float upperBound, lowerBound;
 
@@ -47,7 +46,7 @@ namespace Utilities.Math
 				return false;
 			}
 		}
-		
+
 		/// <summary>
 		/// Returns true if the value is within, but not equal to, the defined bounds.
 		/// </summary>
@@ -68,12 +67,12 @@ namespace Utilities.Math
 		/// </summary>
 		public float ReturnClosestBound(float value)
 		{
-			float midpoint =( upperBound + lowerBound )/ 2;
+			float midpoint = (upperBound + lowerBound) / 2;
 			if (value >= midpoint)
 			{
 				return upperBound;
 			}
-			else 
+			else
 			{
 				return lowerBound;
 			}

@@ -1,15 +1,13 @@
 using UnityEngine;
-using System.Collections;
-using System;
 
 namespace Utilities.Cameras
 {
 	// TODO Clean up this class.
-	
+
 	/// <summary>
 	/// Using a camera as a reference, this class updates the camera of the gameobject to which it is attached to, according to the parameters provided.
 	/// </summary>
-	public class CameraMimic: MonoBehaviour
+	public class CameraMimic : MonoBehaviour
 	{
 		#region PUBLIC VARIABLES
 		public Camera cameraToMimic;
@@ -42,18 +40,18 @@ namespace Utilities.Cameras
 		void Start()
 		{
 			// Get camera on the same game object as this script
-			m_Camera = (Camera) GetComponent(typeof(Camera));
+			m_Camera = (Camera)GetComponent(typeof(Camera));
 
 			// Set initial positions
 			m_CameraIntialPos = new Vector3(
-				m_Camera.transform.position.x, 
-				m_Camera.transform.position.y, 
-			    m_Camera.transform.position.z
+				m_Camera.transform.position.x,
+				m_Camera.transform.position.y,
+				m_Camera.transform.position.z
 				);
 			m_CameraToMimicInitialPos = new Vector3(
-				cameraToMimic.transform.position.x, 
-			    cameraToMimic.transform.position.y, 
-			    cameraToMimic.transform.position.z
+				cameraToMimic.transform.position.x,
+				cameraToMimic.transform.position.y,
+				cameraToMimic.transform.position.z
 				);
 
 			// Set intial rotations
@@ -71,9 +69,9 @@ namespace Utilities.Cameras
 			else
 				m_CameraToMimicInitialZoom = cameraToMimic.fieldOfView;
 		}
-		
+
 		// Update is called once per frame
-		void FixedUpdate () 
+		void FixedUpdate()
 		{
 			UpdatePosition();
 			UpdateRotation();
@@ -84,19 +82,19 @@ namespace Utilities.Cameras
 		{
 			// Calulate offset of primary camera compared to its intial position
 			Vector3 offset = cameraToMimic.transform.position - m_CameraToMimicInitialPos;
-			
+
 			// Apply factored translation to primary camera, considering axis locking.
-			float x = 0 , y = 0 , z = 0 ;
-			
+			float x = 0, y = 0, z = 0;
+
 			if (!lockPositionXAxis)
 				x = offset.x * movementFactor;
 			if (!lockPositionYAxis)
 				y = offset.y * movementFactor;
 			if (!lockPositionZAxis)
 				z = offset.z * movementFactor;
-			
-			Vector3 mimickedOffset = new Vector3 (x, y ,z);
-			
+
+			Vector3 mimickedOffset = new Vector3(x, y, z);
+
 			// Reset secondary camera, and apply relative translation
 			m_Camera.transform.position = m_CameraIntialPos + mimickedOffset;
 		}
@@ -110,7 +108,7 @@ namespace Utilities.Cameras
 
 			Vector3 rotation = cameraToMimic.transform.eulerAngles - m_CameraToMimicInitialRot.eulerAngles;
 
-			float x = 0 , y = 0 , z = 0 ;
+			float x = 0, y = 0, z = 0;
 
 			if (!lockRotationXAxis)
 				x = rotation.x * rotationFactor;
@@ -119,11 +117,11 @@ namespace Utilities.Cameras
 			if (!lockRotationZAxis)
 				z = rotation.z * rotationFactor;
 
-			Vector3 mimickedRotation = new Vector3 (x, y, z);
+			Vector3 mimickedRotation = new Vector3(x, y, z);
 
 			// Reset and apply
 			m_Camera.transform.rotation = m_CameraInitialRot;
-			m_Camera.transform.Rotate (mimickedRotation);
+			m_Camera.transform.Rotate(mimickedRotation);
 		}
 
 		void UpdateZoom()
@@ -144,9 +142,9 @@ namespace Utilities.Cameras
 				}
 
 				//if both cameras are perspective
-				else if ( !m_Camera.orthographic && !cameraToMimic.orthographic)
+				else if (!m_Camera.orthographic && !cameraToMimic.orthographic)
 				{
-					float zoomDifference = cameraToMimic.fieldOfView - m_CameraToMimicInitialZoom ;
+					float zoomDifference = cameraToMimic.fieldOfView - m_CameraToMimicInitialZoom;
 					zoomDifference *= zoomFactor;
 					m_Camera.fieldOfView = m_CameraInitialZoom;
 					m_Camera.fieldOfView += zoomDifference;
@@ -163,18 +161,18 @@ namespace Utilities.Cameras
 						m_Camera.orthographicSize += zoomDifference;*/
 
 						//TODO Clamp the zoom within acceptable bounds once assigned
-						Debug.LogWarning ("CameraMimic: A combination of master=orthographic and slave=perspective cameras is not yet supported.");
+						Debug.LogWarning("CameraMimic: A combination of master=orthographic and slave=perspective cameras is not yet supported.");
 					}
 
 					//if master is perspective and slave is ortho
-					else 
+					else
 					{
 						/*float zoomDifference = cameraToMimic.orthographicSize - m_CameraToMimicInitialZoom;
 						zoomDifference *= zoomFactor;
 						m_Camera.orthographicSize = m_CameraInitialZoom;
 						m_Camera.orthographicSize += zoomDifference;*/
 
-						Debug.LogWarning ("CameraMimic: A combination of master=perspective and slave=orthographic cameras is not yet supported.");
+						Debug.LogWarning("CameraMimic: A combination of master=perspective and slave=orthographic cameras is not yet supported.");
 					}
 
 					//throw new Exception ("CameraMimic: The camera you are trying to mimic and the camera you are applying the mimic to must both be orthographic or both be perspective.");
@@ -190,7 +188,7 @@ namespace Utilities.Cameras
 					Apply zoom update as cam.fov = (otherCam.otho * constant) * zoomFactor; ?
 			*/
 
-				
+
 		}
 
 		#region HELPER FUNCTIONS

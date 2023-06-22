@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using System;
-
 namespace Utilities.StateMachine.States
 {
 	/// <summary>

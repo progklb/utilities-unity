@@ -1,14 +1,14 @@
-﻿using UnityEngine;
-
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Collections.Generic;
+
+using UnityEngine;
 
 /// <summary>
 /// Performs a depth-first recursive search from a given root directory (the directory from which this is launched)
 /// and counts the number of files in the end-nodes of the search tree.
 /// </summary>
-public class FileCounter : MonoBehaviour 
+public class FileCounter : MonoBehaviour
 {
 	#region INTERNAL TYPES
 	/// <summary>
@@ -20,7 +20,7 @@ public class FileCounter : MonoBehaviour
 		public int files { get; set; }
 	}
 	#endregion
-		
+
 
 	#region VARIABLES, CONSTANTS
 	/// Starting directory
@@ -78,7 +78,7 @@ public class FileCounter : MonoBehaviour
 		}
 		else
 		{
-			directories.Add( new DirFileCount() { directory = root } );
+			directories.Add(new DirFileCount() { directory = root });
 		}
 	}
 
@@ -119,7 +119,7 @@ public class FileCounter : MonoBehaviour
 	/// </summary>
 	void PrintResults()
 	{
-		StringBuilder sb  = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 
 		foreach (DirFileCount dir in directories)
 		{

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Utilities.Math
 {
@@ -7,16 +6,16 @@ namespace Utilities.Math
 	/// Stores a 2 dimensional coordinate with integer components. 
 	/// Has convenience functionality to return neighboring positions.
 	/// </summary>
-	public class GridPosition 
+	public class GridPosition
 	{
 		#region TYPES
 		public enum Neighbor
 		{
 			N, NW, W, SW, S, SE, E, NE
-		}	
+		}
 		#endregion
-		
-			
+
+
 		#region VARIABLES
 		public int x, y;
 		public int gridSize = 1;
@@ -26,12 +25,12 @@ namespace Utilities.Math
 		#region CONSTRUCTORS
 		public GridPosition() { }
 
-		public GridPosition(int x, int y) 
+		public GridPosition(int x, int y)
 		{
 			this.x = x;
 			this.y = y;
 		}
-		public GridPosition(GridPosition pos) 
+		public GridPosition(GridPosition pos)
 		{
 			this.x = pos.x;
 			this.y = pos.y;
@@ -49,50 +48,51 @@ namespace Utilities.Math
 			gridSize = size;
 		}
 
-		public void SetPosition(int x, int y) 
+		public void SetPosition(int x, int y)
 		{
 			this.x = x;
 			this.y = y;
 		}
 
-		public GridPosition GetPosition() 
+		public GridPosition GetPosition()
 		{
 			return this;
 		}
 
-		public Vector2 GetPositionAsVector2() 
+		public Vector2 GetPositionAsVector2()
 		{
-			return new Vector2 (x, y);
+			return new Vector2(x, y);
 		}
 
-		public Vector3 GetPositionAsVector3() 
+		public Vector3 GetPositionAsVector3()
 		{
-			return new Vector3 (x, y, 0);
+			return new Vector3(x, y, 0);
 		}
 
-		public GridPosition GetNeighborPosition(Neighbor dir) 
+		public GridPosition GetNeighborPosition(Neighbor dir)
 		{
-			switch (dir) 
+			switch (dir)
 			{
-				case Neighbor.N:	return new GridPosition	(x, 		y + gridSize);	
-				case Neighbor.NW:	return new GridPosition	(x - gridSize, 	y + gridSize);
-				case Neighbor.W:	return new GridPosition	(x - gridSize, 	y);
-				case Neighbor.SW:	return new GridPosition	(x - gridSize, 	y - gridSize);
-				case Neighbor.S:	return new GridPosition	(x, 		y - gridSize);
-				case Neighbor.SE:	return new GridPosition	(x + gridSize, 	y - gridSize);
-				case Neighbor.E:	return new GridPosition	(x + gridSize, 	y);
-				case Neighbor.NE:	return new GridPosition	(x + gridSize, 	y + gridSize);
+				case Neighbor.N: return new GridPosition(x, y + gridSize);
+				case Neighbor.NW: return new GridPosition(x - gridSize, y + gridSize);
+				case Neighbor.W: return new GridPosition(x - gridSize, y);
+				case Neighbor.SW: return new GridPosition(x - gridSize, y - gridSize);
+				case Neighbor.S: return new GridPosition(x, y - gridSize);
+				case Neighbor.SE: return new GridPosition(x + gridSize, y - gridSize);
+				case Neighbor.E: return new GridPosition(x + gridSize, y);
+				case Neighbor.NE: return new GridPosition(x + gridSize, y + gridSize);
 				default:
-					Debug.Log (this.ToString() + ": No such neighboring position exists. Aren't you familiar with simple compass directions? Also, the GridPosition you just got back was garbage: (0,0)");
-					return new GridPosition (0, 0);
+					Debug.Log(this.ToString() + ": No such neighboring position exists. Aren't you familiar with simple compass directions? Also, the GridPosition you just got back was garbage: (0,0)");
+					return new GridPosition(0, 0);
 			}
 		}
 
 		/// <summary>
 		///Returns a description of this item in the form of (x,y).
 		/// </summary>
-		public override string ToString() {
-			return ("(" + x + "," + y +")");
+		public override string ToString()
+		{
+			return ("(" + x + "," + y + ")");
 		}
 		#endregion
 	}

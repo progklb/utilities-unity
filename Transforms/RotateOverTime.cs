@@ -5,7 +5,7 @@ namespace Utilities.Transforms
 	/// <summary>
 	/// Rotates the transform to which this script is attached to over time about the axis specified.
 	/// </summary>
-	public class RotateOverTime : MonoBehaviour 
+	public class RotateOverTime : MonoBehaviour
 	{
 		#region PUBLIC VARIABLES
 		public float m_Speed = 1f;

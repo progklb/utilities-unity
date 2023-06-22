@@ -1,7 +1,5 @@
 using UnityEngine;
 
-using System;
-
 using Utilities.StateMachine.Conditions;
 using Utilities.StateMachine.StateEvents;
 using Utilities.StateMachine.StateLogic;
