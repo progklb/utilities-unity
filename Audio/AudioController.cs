@@ -21,7 +21,7 @@ namespace Utilities.Audio
 		#region PROPERTIES
 		public bool isPlaying { get; private set; }
 
-		public AudioBank currentAudioBank { get; set; }
+		public List<AudioBank> currentAudioBanks { get; set; } = new(4);
 
 		private Coroutine playbackRoutine { get; set; }
 		#endregion
@@ -37,81 +37,113 @@ namespace Utilities.Audio
 
 		[SerializeField]
 		private AudioSource m_AudioSource;
+
+		[SerializeField]
+		[Tooltip("If true, we stack audio banks as we come into contact with their volume, " +
+			"and pop them when leaving their volume. If false, we replace the current bank.")]
+		private bool m_IsStacking;
+		#endregion
+
+
+		#region UNITY EVENTS
+		void OnValidate()
+		{
+			// Ensure that we don't have any duplicate entries.
+			if (!m_AudioBanks.TrueForAll(x => m_AudioBanks.Where(y => x == y).Count() == 1))
+			{
+				Debug.LogError("Duplicate audio bank(s) found! Ensure that all banks are unique.");
+			}
+		}
 		#endregion
 
 
 		#region PUBLIC API
 		/// <summary>
 		/// Sets the current audio bank without playing the audio.
+		/// This will load the audio bank with the specified key, and requires
+		/// that this controller has this bank assigned in <see cref="m_AudioBanks"/>.
 		/// </summary>
 		/// <param name="key">The key of the audio bank to load.</param>
 		public void SetBank(string key)
 		{
-			SetBank(m_AudioBanks.First(x => x.m_Key == key));
+			SetBank(m_AudioBanks.FirstOrDefault(x => x.m_Key == key));
 		}
 
 		/// <summary>
 		/// Sets the current audio bank without playing the audio.
+		/// This will set the provided audio bank as the current bank,
+		/// and does not require that the bank is assigned in <see cref="m_AudioBanks"/>.
 		/// </summary>
 		/// <param name="key">The audio bank to load.</param>
 		public void SetBank(AudioBank bank)
 		{
-			currentAudioBank = bank;
+			if (bank == null)
+			{
+				Debug.LogError("Cannot set audio bank. Provided bank is null.");
+				return;
+			}
+
+			Debug.Log("Setting bank: " + bank.name);
+
+			if (!m_IsStacking)
+			{
+				currentAudioBanks.Clear();
+			}
+
+			currentAudioBanks.Add(bank);
+		}
+
+		/// <summary>
+		/// Sets the current audio bank without playing the audio.
+		/// This will load the audio bank with the specified key, and requires
+		/// that this controller has this bank assigned in <see cref="m_AudioBanks"/>.
+		/// </summary>
+		/// <param name="key">The key of the audio bank to load.</param>
+		public void UnsetBank(string key)
+		{
+			UnsetBank(m_AudioBanks.FirstOrDefault(x => x.m_Key == key));
+		}
+
+		/// <summary>
+		/// Sets the current audio bank without playing the audio.
+		/// This will set the provided audio bank as the current bank,
+		/// and does not require that the bank is assigned in <see cref="m_AudioBanks"/>.
+		/// </summary>
+		/// <param name="key">The audio bank to load.</param>
+		public void UnsetBank(AudioBank bank)
+		{
+			if (bank == null)
+			{
+				Debug.LogError("Cannot unset audio bank. Provided bank is null.");
+				return;
+			}
+
+			Debug.Log("Unsetting bank: " + bank.name);
+
+			var idx = currentAudioBanks.IndexOf(bank);
+			if (idx >= 0)
+			{
+				currentAudioBanks.RemoveAt(idx);
+			}
 		}
 
 		/// <summary>
 		/// Plays the current audio bank.
 		/// </summary>
-		public void Play()
+		public void Play(AudioBankProperties properties = null)
 		{
-			if (currentAudioBank != null)
+			if (currentAudioBanks.Count > 0)
 			{
-				Play(currentAudioBank);
+				Play(currentAudioBanks.Last(), properties);
 			}
 			else if (m_DefaultAudioBank != null)
 			{
-				Play(m_DefaultAudioBank);
+				Play(m_DefaultAudioBank, properties);
 			}
 			else
 			{
 				Debug.LogError("Cannot play audio as there is no current audio bank.");
 			}
-		}
-
-		/// <summary>
-		/// Attempts to load and play the audio bank with the specified key.
-		/// This will use the bank's properties to control playback, unless
-		/// an optional override for specifying specific playback behaviour is provided.
-		/// </summary>
-		/// <param name="key">The key of the audio set to play.</param>
-		/// <param name="properties">Optional overrides for playback behaviour.</param>
-		public void Play(string key, AudioBankProperties properties = null)
-		{
-			var bank = m_AudioBanks.First(x => x.m_Key == key);
-			Play(bank, properties);
-		}
-
-		/// <summary>
-		/// Assigns and plays the provided audio bank.
-		/// This will use the bank's properties to control playback, unless
-		/// an optional override for specifying specific playback behaviour is provided.
-		/// </summary>
-		/// <param name="bank">The audio bank to play.</param>
-		/// <param name="properties">Optional overrides for playback behaviour.</param>
-		public void Play(AudioBank bank, AudioBankProperties properties = null)
-		{
-			if (playbackRoutine != null)
-			{
-				StopCoroutine(playbackRoutine);
-			}
-
-			currentAudioBank = bank;
-
-			playbackRoutine = StartCoroutine(PlayRoutine(
-				//currentAudioBank,
-				properties?.loop ?? currentAudioBank.m_Looping,
-				properties?.mode ?? currentAudioBank.m_PlaybackMode,
-				properties?.speed ?? currentAudioBank.m_Speed));
 		}
 
 		/// <summary>
@@ -131,7 +163,28 @@ namespace Utilities.Audio
 
 
 		#region HELPER FUNCTIONS
-		private IEnumerator PlayRoutine(/*AudioBank bank, */bool loop, AudioBank.PlaybackMode mode, float speed)
+		/// <summary>
+		/// Assigns and plays the provided audio bank.
+		/// This will use the bank's properties to control playback, unless
+		/// an optional override for specifying specific playback behaviour is provided.
+		/// </summary>
+		/// <param name="bank">The audio bank to play.</param>
+		/// <param name="properties">Optional overrides for playback behaviour.</param>
+		private void Play(AudioBank bank, AudioBankProperties properties = null)
+		{
+			if (playbackRoutine != null)
+			{
+				StopCoroutine(playbackRoutine);
+			}
+
+			playbackRoutine = StartCoroutine(PlayRoutine(
+				bank,
+				properties?.loop ?? bank.m_Looping,
+				properties?.mode ?? bank.m_PlaybackMode,
+				properties?.speed ?? bank.m_Speed));
+		}
+
+		private IEnumerator PlayRoutine(AudioBank bank, bool loop, AudioBank.PlaybackMode mode, float speed)
 		{
 			AudioClip clip = null;
 			int idx = 0;
@@ -141,13 +194,13 @@ namespace Utilities.Audio
 				switch (mode)
 				{
 					case AudioBank.PlaybackMode.Randomised:
-						var rand = (int)(UnityEngine.Random.value * (currentAudioBank.m_Clips.Count - 1));
-						clip = currentAudioBank.m_Clips[rand];
+						var rand = (int)(Random.value * (bank.m_Clips.Count - 1));
+						clip = bank.m_Clips[rand];
 						break;
 
 					case AudioBank.PlaybackMode.Iterative:
-						idx = ++idx % currentAudioBank.m_Clips.Count;
-						clip = currentAudioBank.m_Clips[idx];
+						idx = ++idx % bank.m_Clips.Count;
+						clip = bank.m_Clips[idx];
 						break;
 
 					default:
