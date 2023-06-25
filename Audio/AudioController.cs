@@ -19,6 +19,8 @@ namespace Utilities.Audio
 
 
 		#region PROPERTIES
+		public static bool enableLogging { get; set; }
+
 		public bool isPlaying { get; private set; }
 
 		public List<AudioBank> currentAudioBanks { get; set; } = new(4);
@@ -51,7 +53,7 @@ namespace Utilities.Audio
 			// Ensure that we don't have any duplicate entries.
 			if (!m_AudioBanks.TrueForAll(x => m_AudioBanks.Where(y => x == y).Count() == 1))
 			{
-				Debug.LogError("Duplicate audio bank(s) found! Ensure that all banks are unique.");
+				LogError("Duplicate audio bank(s) found! Ensure that all banks are unique.");
 			}
 		}
 		#endregion
@@ -79,11 +81,11 @@ namespace Utilities.Audio
 		{
 			if (bank == null)
 			{
-				Debug.LogError("Cannot set audio bank. Provided bank is null.");
+				LogError("Cannot set audio bank. Provided bank is null.");
 				return;
 			}
 
-			Debug.Log("Setting bank: " + bank.name);
+			Log($"Setting audio bank ({(m_IsStacking ? "stacking" : "non-stacking")}): {bank.m_Key} ({bank.name})");
 
 			if (!m_IsStacking)
 			{
@@ -114,11 +116,11 @@ namespace Utilities.Audio
 		{
 			if (bank == null)
 			{
-				Debug.LogError("Cannot unset audio bank. Provided bank is null.");
+				LogError("Cannot unset audio bank. Provided bank is null.");
 				return;
 			}
 
-			Debug.Log("Unsetting bank: " + bank.name);
+			Log($"Unsetting audio bank: {bank.m_Key} ({bank.name})");
 
 			var idx = currentAudioBanks.IndexOf(bank);
 			if (idx >= 0)
@@ -142,7 +144,7 @@ namespace Utilities.Audio
 			}
 			else
 			{
-				Debug.LogError("Cannot play audio as there is no current audio bank.");
+				LogError("Cannot play audio as there is no current audio bank.");
 			}
 		}
 
@@ -204,7 +206,7 @@ namespace Utilities.Audio
 						break;
 
 					default:
-						Debug.LogError("Unsupported playback mode.");
+						LogError("Unsupported playback mode.");
 						yield break;
 				}
 
@@ -216,6 +218,19 @@ namespace Utilities.Audio
 			while (loop && isPlaying);
 
 			isPlaying = false;
+		}
+
+		private void Log(string message)
+		{
+			if (enableLogging)
+			{
+				Utilities.Log.Info(this, message);
+			}
+		}
+
+		private void LogError(string message)
+		{
+			Utilities.Log.Error(this, message);
 		}
 		#endregion
 	}
