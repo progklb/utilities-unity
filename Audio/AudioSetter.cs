@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using Utilities.Attributes;
+
 namespace Utilities.Audio
 {
 	/// <summary>
@@ -10,6 +12,7 @@ namespace Utilities.Audio
 	public class AudioSetter : BaseAudioTrigger
 	{
 		#region VARIABLES
+		[Help("Each property is mutually exclusive. Only choose one.")]
 		[SerializeField]
 		private AudioBank m_AudioBank;
 		[SerializeField]
