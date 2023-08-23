@@ -8,6 +8,7 @@ namespace Utilities.Utils
 {
 	public class SnapToGround : MonoBehaviour
 	{
+#if UNITY_EDITOR
 		[MenuItem("Utilities/Snap To Ground %g")]
 		public static void Ground()
 		{
@@ -24,5 +25,6 @@ namespace Utilities.Utils
 				}
 			}
 		}
+#endif
 	}
 }
