@@ -20,7 +20,7 @@ namespace Utilities.EditorScripts
 		#region VARIABLES
 		private Mode m_Mode;
 		private int m_LimitPerLine;
-		private float m_Offset;
+		private float m_Offset = 2.5f;
 
 		private bool m_CustomStartGroupEnabled;
 		private Vector3 m_CustomRootPos;
@@ -45,7 +45,7 @@ namespace Utilities.EditorScripts
 			// General Params
 
 			m_Mode = (Mode)EditorGUILayout.EnumPopup("Mode", m_Mode);
-			m_LimitPerLine = EditorGUILayout.IntField("Objects Limit Per Line", m_LimitPerLine < 1 ? 1 : m_LimitPerLine);
+			m_LimitPerLine = EditorGUILayout.IntField("Objects Limit Per Line", m_LimitPerLine < 1 ? Selection.objects.Length : m_LimitPerLine);
 			m_Offset = EditorGUILayout.FloatField("Offset Between Objects", m_Offset);
 
 			// Explicit Overrides
@@ -53,7 +53,14 @@ namespace Utilities.EditorScripts
 			GUILayout.Space(10);
 
 			m_CustomStartGroupEnabled = EditorGUILayout.BeginToggleGroup("Explicit Start Position", m_CustomStartGroupEnabled);
-			m_CustomRootPos = EditorGUILayout.Vector3Field("Start Position", m_CustomRootPos);
+
+			// If we have an object selected, and we aren't explicitly specifying a position, use the root obj pos.
+			var pos = !m_CustomStartGroupEnabled && Selection.gameObjects.Length > 0 ?
+				Selection.gameObjects[0].transform.position :
+				m_CustomRootPos;
+
+			m_CustomRootPos = EditorGUILayout.Vector3Field("Start Position", pos);
+
 			EditorGUILayout.EndToggleGroup();
 
 
@@ -67,7 +74,7 @@ namespace Utilities.EditorScripts
 
 		void Layout()
 		{
-			if (Selection.objects == null || Selection.objects.Length == 0)
+			if (Selection.gameObjects.Length == 0)
 			{
 				Log.Error(this, $"No objects are selected. Please select at least 1 object in the scene hierarchy.");
 				return;
@@ -83,7 +90,7 @@ namespace Utilities.EditorScripts
 			// Otherwise use the values of the first selected object.
 			else
 			{
-				var rootObj = CastToGameObject(Selection.objects[0]);
+				var rootObj = Selection.gameObjects[0];
 				rootPos = rootObj.transform.position;
 			}
 
@@ -92,7 +99,7 @@ namespace Utilities.EditorScripts
 
 			for (int i = 0; i < Selection.objects.Length; i++)
 			{
-				var currObj = CastToGameObject(Selection.objects[i]);
+				var currObj = Selection.gameObjects[i];
 
 				if (currObj != null)
 				{
@@ -117,11 +124,6 @@ namespace Utilities.EditorScripts
 					Log.Error(this, $"Selected object {i} is not a game object!");
 				}
 			}
-		}
-
-		GameObject CastToGameObject(Object obj)
-		{
-			return obj as GameObject;
 		}
 		#endregion
 	}
